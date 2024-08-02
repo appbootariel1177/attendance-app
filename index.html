@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      background-color: #000; /* Fondo negro */
+      color: #fff; /* Texto blanco */
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgb(213, 213, 229), 0 0 30px rgb(168, 141, 36);
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    h1 {
+      color: rgb(215, 234, 75);
+      margin-bottom: 20px;
+    }
+    .student {
+      background-color: #E8F5E9; /* Verde suave */
+      border: 1px solid #A5D6A7;
+      padding: 15px;
+      border-radius: 25px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      color: #000; /* Texto negro */
+    }
+    .student.selected {
+      background-color: #81C784; /* Verde más oscuro para presente */
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 25px; /* Más redondeado */
+      cursor: pointer;
+    }
+    #submitBtn {
+      background-color: rgb(217, 175, 70); /* Color botón enviar */
+      color: #000; /* Texto negro */
+      float: right; /* Mover a la derecha */
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px rgba(217, 175, 70, 0.5); /* Efecto sombra */
+    }
+    #submitBtn:hover {
+      background-color: #ffff00; /* Cambio suave de color */
+      box-shadow: 0 0 20px rgba(255, 255, 0, 0.8); /* Efecto sombra más pronunciado en hover */
+    }
+    #clearBtn {
+      background-color: #F44336; /* Rojo */
+      color: white;
+      float: left; /* Mover a la izquierda */
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px rgba(244, 67, 54, 0.5); /* Efecto sombra */
+    }
+    #clearBtn:hover {
+      background-color: #ff5252; /* Cambio suave de color */
+      box-shadow: 0 0 20px rgba(255, 82, 82, 0.8); /* Efecto sombra más pronunciado en hover */
+    }
+    @media (max-width: 600px) {
+      .student {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      button {
+        float: none; /* Restablecer alineación de botones en pantallas pequeñas */
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 5px 0; /* Ajustar el margen */
+      }
+    }
+    /* Limpiar floats */
+    #attendanceForm::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Asistencias utn 2024</h1>
+    <h4>Sindicato de choferes de camiones</h4>
+    <form id="attendanceForm">
+      <div id="studentList"></div>
+      <button type="button" id="clearBtn" onclick="clearForm()">Limpiar</button>
+      <button type="button" id="submitBtn" onclick="submitForm()">Enviar</button>
+    </form>
+  </div>
+
+  <script>
+    function loadStudents() {
+      google.script.run.withSuccessHandler(function(data) {
+        var studentList = document.getElementById('studentList');
+        studentList.innerHTML = '';
+        data.forEach(function(student, index) {
+          var div = document.createElement('div');
+          div.className = 'student';
+          div.innerHTML = `
+            <span onclick="toggleAttendance(this, ${index})">${student[0]}</span>
+          `;
+          studentList.appendChild(div);
+        });
+      }).getStudents();
+    }
+
+    function toggleAttendance(element, index) {
+      element.parentElement.classList.toggle('selected');
+    }
+
+    function submitForm() {
+      var attendanceData = [];
+      var students = document.querySelectorAll('.student');
+      students.forEach(function(student, index) {
+        var status = student.classList.contains('selected') ? 'Presente' : 'Ausente';
+        attendanceData.push([index, status]);
+      });
+      google.script.run.withSuccessHandler(function() {
+        alert('Asistencia enviada!');
+        location.reload();
+      }).submitAttendance(attendanceData);
+    }
+
+    function clearForm() {
+      var students = document.querySelectorAll('.student');
+      students.forEach(function(student) {
+        student.classList.remove('selected');
+      });
+    }
+
+    window.onload = loadStudents;
+  </script>
+</body>
+</html>
