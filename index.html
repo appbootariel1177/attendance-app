@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programa de Entrenamiento Funcional</title>
+    <title>Programa de Entrenamiento Grupal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,18 +29,15 @@
         }
         .content {
             padding: 20px;
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
         }
         .day-section {
-            display: none;
             padding: 10px;
             background-color: #ffe3ee;
             border-radius: 10px;
             border: 2px solid #ff8bb1;
-        }
-        .day-section.active {
-            display: block;
+            margin-bottom: 20px;
         }
         .day-section h2 {
             color: #ff5b8a;
@@ -58,6 +55,7 @@
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
+            width: 100%;
         }
         .nav-buttons button {
             background-color: #ff5b8a;
@@ -67,137 +65,117 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
+            flex: 1;
+            margin: 0 10px;
         }
-        .nav-buttons button:disabled {
-            background-color: #ff8bb1;
-            cursor: not-allowed;
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls label {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .controls input {
+            padding: 5px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: 1px solid #ff8bb1;
+            width: 60px;
+            text-align: center;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+            .content {
+                padding: 10px;
+            }
+            .day-section h2 {
+                font-size: 1.3em;
+            }
+            .exercise-list li {
+                font-size: 1em;
+            }
+            .nav-buttons {
+                flex-direction: column;
+            }
+            .nav-buttons button {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .controls label, .controls input {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Programa de Entrenamiento Funcional</h1>
+        <h1>Programa de Entrenamiento Grupal</h1>
     </header>
     <div class="content">
-        <div id="day1" class="day-section active">
-            <h2>Día 1: Fuerza de Piernas y Glúteos</h2>
-            <ul class="exercise-list">
-                <li>Sentadilla con Barra Larga</li>
-                <li>Peso Muerto Rumano con Mancuernas Rusas</li>
-                <li>Step-Ups con Pesas</li>
-                <li>Elevación de Pelvis con Peso</li>
-                <li>Máquina de Extensiones de Cuádriceps</li>
-            </ul>
+        <div class="controls">
+            <label for="participants">Cantidad de Personas:</label>
+            <input type="number" id="participants" value="16" min="1" max="20">
+            <button onclick="generateWorkout()">Generar Entrenamiento</button>
         </div>
-        <div id="day2" class="day-section">
-            <h2>Día 2: Entrenamiento de Tronco Superior</h2>
-            <ul class="exercise-list">
-                <li>Press de Banca Plano</li>
-                <li>Remo con Mancuernas Rusas</li>
-                <li>Press Militar con Mancuernas</li>
-                <li>Dorsalera con Agarre Amplio</li>
-                <li>Tríceps con Polea</li>
-            </ul>
-        </div>
-        <div id="day3" class="day-section">
-            <h2>Día 3: Cardio y Core</h2>
-            <ul class="exercise-list">
-                <li>Salto en Caja</li>
-                <li>Plancha con Elevación de Piernas</li>
-                <li>Burpees</li>
-                <li>Crunch en Banco Abdominal</li>
-                <li>Bicicleta Fija (20 minutos)</li>
-            </ul>
-        </div>
-        <div id="day4" class="day-section">
-            <h2>Día 4: Fuerza de Cuerpo Completo</h2>
-            <ul class="exercise-list">
-                <li>Sentadilla con Barra Larga</li>
-                <li>Press de Banca con Barra Romana</li>
-                <li>Remo con Barra Octagonal</li>
-                <li>Press de Piernas en Prensa 45°</li>
-                <li>Remo con Mancuerna en Banco</li>
-            </ul>
-        </div>
-        <div id="day5" class="day-section">
-            <h2>Día 5: Tren Inferior y Core</h2>
-            <ul class="exercise-list">
-                <li>Sentadilla Sissy</li>
-                <li>Elevación de Talones con Pesas</li>
-                <li>Plancha Lateral</li>
-                <li>Abducción de Cadera con Bandas Elásticas</li>
-                <li>Máquina de Elevación de Pelvis</li>
-            </ul>
-        </div>
-        <div id="day6" class="day-section">
-            <h2>Día 6: Tren Superior y Cardio</h2>
-            <ul class="exercise-list">
-                <li>Press de Hombros con Mancuernas</li>
-                <li>Flexiones con Agarre Amplio</li>
-                <li>Remo en Máquina Dorsalera</li>
-                <li>Tríceps con Mancuernas Rusas</li>
-                <li>Jamping (20 minutos)</li>
-            </ul>
-        </div>
-        <div id="day7" class="day-section">
-            <h2>Día 7: Circuito Funcional</h2>
-            <ul class="exercise-list">
-                <li>Sentadillas con Peso Corporal</li>
-                <li>Burpees</li>
-                <li>Mountain Climbers</li>
-                <li>Press de Hombros con Bandas Elásticas</li>
-                <li>TRX Remo Invertido</li>
-            </ul>
-        </div>
-        <div id="day8" class="day-section">
-            <h2>Día 8: Tren Inferior Intensivo</h2>
-            <ul class="exercise-list">
-                <li>Sentadilla con Chaleco de Peso</li>
-                <li>Desplantes con Barra Larga</li>
-                <li>Hip Thrust con Barra</li>
-                <li>Prensa de Piernas</li>
-                <li>Máquina de Extensión de Cuádriceps</li>
-            </ul>
-        </div>
-        <div id="day9" class="day-section">
-            <h2>Día 9: Tren Superior Intensivo</h2>
-            <ul class="exercise-list">
-                <li>Press de Banca con Barra</li>
-                <li>Remo con Barra T</li>
-                <li>Press Militar con Barra Romana</li>
-                <li>Jalón al Pecho con Polea</li>
-                <li>Tríceps con Soga en Polea</li>
-            </ul>
-        </div>
-        <div id="day10" class="day-section">
-            <h2>Día 10: Cardio y Core</h2>
-            <ul class="exercise-list">
-                <li>Jamping (30 minutos)</li>
-                <li>Plancha Abdominal</li>
-                <li>Crunches con Pelota de 60cm</li>
-                <li>Bicicleta Fija (20 minutos)</li>
-                <li>Elevación de Piernas en Colchoneta</li>
-            </ul>
+        <div class="day-section" id="workout-plan">
+            <!-- Plan de entrenamiento se mostrará aquí -->
         </div>
     </div>
     <div class="nav-buttons">
-        <button id="prevButton" onclick="changeDay(-1)" disabled>Anterior</button>
-        <button id="nextButton" onclick="changeDay(1)">Siguiente</button>
+        <button onclick="window.print()">Imprimir Programa</button>
+        <button onclick="window.location.reload()">Reiniciar Programa</button>
     </div>
 
     <script>
-        let currentDay = 1;
-        const totalDays = 10; // Número total de días en el programa
+        const exercises = [
+            "Sentadilla con Salto",
+            "Flexiones de Pecho",
+            "Burpees",
+            "Plancha Abdominal",
+            "Lunges Alternados",
+            "Mountain Climbers",
+            "Remo con Mancuernas",
+            "Abdominales en V",
+            "Box Jumps (Salto en Caja)",
+            "Russian Twists",
+            "Kettlebell Swings",
+            "Sprints en el Lugar",
+            "Press de Hombros con Mancuernas",
+            "Elevación de Talones",
+            "Curl de Bíceps con Barra"
+        ];
 
-        function changeDay(direction) {
-            document.getElementById(`day${currentDay}`).classList.remove('active');
-            currentDay += direction;
-            document.getElementById(`day${currentDay}`).classList.add('active');
+        function generateWorkout() {
+            const participants = parseInt(document.getElementById('participants').value);
+            const workoutPlan = document.getElementById('workout-plan');
 
-            // Habilitar o deshabilitar los botones según el día actual
-            document.getElementById('prevButton').disabled = (currentDay === 1);
-            document.getElementById('nextButton').disabled = (currentDay === totalDays);
+            let exercisesPerPerson = exercises.length / participants;
+            exercisesPerPerson = Math.floor(exercisesPerPerson) > 0 ? Math.floor(exercisesPerPerson) : 1;
+            const totalStations = participants;
+            const totalExercises = exercisesPerPerson * totalStations;
+
+            let workoutHtml = `<h2>Entrenamiento Circuito - ${totalStations} Estaciones</h2>`;
+            workoutHtml += `<p>Duración: 60 minutos | ${(60 / totalExercises).toFixed(2)} minutos por estación (incluyendo transición)</p>`;
+            workoutHtml += `<ul class="exercise-list">`;
+
+            for (let i = 0; i < totalExercises; i++) {
+                const exerciseIndex = i % exercises.length;
+                workoutHtml += `<li>Estación ${i + 1}: ${exercises[exerciseIndex]}</li>`;
+            }
+
+            workoutHtml += `</ul>`;
+            workoutPlan.innerHTML = workoutHtml;
         }
+
+        // Generar el entrenamiento inicial para 16 personas
+        generateWorkout();
     </script>
 </body>
 </html>
